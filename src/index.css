@@ -9,8 +9,29 @@ button {
 }
 
 body {
-  width: 100%;
-  min-height: 100vh;
-  height: 100%;
-  font-family: "Roboto", sans-serif;
+  font-family: "Montserrat", sans-serif;
+}
+
+:root {
+  --blue-500: #2dbcfa;
+
+  --green-500: #13c725;
+  --white: #fff;
+
+  --radius: 5px;
+}
+
+h1 {
+  color: var(--green-500);
+}
+h2 {
+  color: #2dbcfa;
+}
+
+li {
+  list-style: none;
+}
+
+a {
+  text-decoration: none;
 }
