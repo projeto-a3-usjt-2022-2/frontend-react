@@ -1,0 +1,79 @@
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.container {
+  width: 100%;
+  width: 4rem;
+  height: 100vh;
+  background-color: whitesmoke;
+
+  position: fixed;
+  left: 0;
+  top: 0;
+
+  transition: width 0.2s ease;
+}
+
+.active {
+  width: 20rem;
+}
+
+.closed {
+  display: grid;
+  place-content: center;
+  padding-top: 1rem;
+}
+.iconButton {
+  width: 3rem;
+  aspect-ratio: 1/1;
+  background-color: inherit;
+  border: 1px solid transparent;
+
+  svg {
+    width: 2rem;
+    height: 2rem;
+    fill: #777;
+  }
+}
+
+.open {
+  animation: fadeIn 1s ease-in;
+  header {
+    padding: 1rem 0.5rem;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+
+    svg {
+      fill: #777;
+    }
+  }
+
+  ul {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+.link {
+  padding: 0.8rem 1rem;
+  border-radius: var(--radius);
+  display: flex;
+  gap: 1rem;
+
+  font-size: 1.2rem;
+  color: var(--green-500);
+  transition: color 0.2s ease-in;
+
+  svg {
+    width: 2rem;
+    height: 2rem;
+  }
+}
