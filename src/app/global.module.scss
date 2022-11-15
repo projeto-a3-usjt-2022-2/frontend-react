@@ -1,0 +1,30 @@
+.inputStyle {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  justify-content: space-between;
+
+  input {
+    border: 1px solid #2dbcfa;
+    padding: 0.5rem;
+    border-radius: 5px;
+
+    :focus {
+      outline: 1px solid #2dbcfa;
+    }
+  }
+}
+
+.selectStyle {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+
+  select {
+    padding: 0.5rem;
+    border-radius: var(--radius);
+    background-color: #2dbcfa;
+    border: 1px solid #2dbcfa;
+    color: #fff;
+  }
+}
