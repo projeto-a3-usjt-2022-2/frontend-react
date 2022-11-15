@@ -6,13 +6,14 @@
   background-color: whitesmoke;
 
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: 1fr minmax(max-content, 37.5rem);
 
   .background {
     background-color: red;
   }
 
   .userView {
+    width: 100%;
     background-color: white;
     padding: 4rem;
 
@@ -23,5 +24,19 @@
   section {
     width: 100%;
     height: 100%;
+  }
+
+  @media (max-width: 800px) {
+    grid-template-columns: 1fr;
+
+    .background {
+      display: none;
+    }
+  }
+
+  @media (max-width: 500px) {
+    .userView {
+      padding: 0;
+    }
   }
 }
