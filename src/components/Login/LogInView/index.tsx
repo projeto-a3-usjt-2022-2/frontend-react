@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { AiOutlineLogin } from "react-icons/ai";
+import { redirect } from "react-router-dom";
 import { toast } from "react-toastify";
 import { IParams, userLogin } from "../../../services/POST/userLogIn";
 import { formatCpf } from "../../../utils/formatCpf";
@@ -22,9 +23,12 @@ export const LoginView: React.FC<ILoginView> = ({ setIsSignView }) => {
       async () => {
         let response = await userLogin(userInfo);
 
-        console.log(response.data);
+        sessionStorage.setItem(
+          "@USER_CREDENTIALS",
+          JSON.stringify(response.data)
+        );
 
-        return response;
+        return redirect("/");
       },
       {
         error: "Verifique suas credenciais e tente novamente",
@@ -52,8 +56,6 @@ export const LoginView: React.FC<ILoginView> = ({ setIsSignView }) => {
                 onChange={(event) => {
                   let formattedCpf = formatCpf(event.target.value);
 
-                  console.log(formattedCpf);
-
                   setUserInfo({ ...userInfo, credential: formattedCpf });
                 }}
                 value={userInfo.credential}
@@ -73,24 +75,18 @@ export const LoginView: React.FC<ILoginView> = ({ setIsSignView }) => {
                 required
               />
             </article>
+            <button type="submit">
+              <p>Entrar</p>
+              <AiOutlineLogin />
+            </button>
           </section>
-
-          <button type="submit">
-            <p>Entrar</p>
-            <AiOutlineLogin />
-          </button>
         </form>
-      </main>
-      <footer className={style.footerLogin}>
-        <article>
+
+        <footer className={style.footerLogin}>
           <p>Não possui conta? </p>
           <button onClick={() => setIsSignView(true)}>Cadastre-se</button>
-        </article>
-
-        <article>
-          <button>Esqueci minha senha</button>
-        </article>
-      </footer>
+        </footer>
+      </main>
     </>
   );
 };
