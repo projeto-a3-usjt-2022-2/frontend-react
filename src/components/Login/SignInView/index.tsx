@@ -1,17 +1,50 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { AiOutlineLogin } from "react-icons/ai";
 import { createUser, IUserInfo } from "../../../services/POST/createUser";
 import { toast } from "react-toastify";
+
+import globalHealth from "../../../global/healthOptions.json";
+import global from "../../../app/global.module.scss";
 import style from "./style.module.scss";
+import { ScheduleDoctorOptions } from "../../FC/ScheduleDoctorOptions";
+import { Switch } from "evergreen-ui";
+import { formatCpf } from "../../../utils/formatCpf";
+import { getFormErrors } from "./preventError";
+import { useAuthentication } from "../../../hooks/useAuthentication";
 
 interface ISignInView {
   setSignView: any;
 }
 
+type IUserInfoOptions = {
+  type: string;
+  label: string;
+  keyName: any;
+  options?: string[];
+}[];
 export const SignInView: React.FC<ISignInView> = ({ setSignView }) => {
-  const [userInfo, setUserInfo] = useState<{} | IUserInfo>({});
+  const { userLogged, status } = useAuthentication();
+  const [isDoctor, setIsDoctor] = useState(false);
+  const [hoursSelected, setHoursSelected] = useState<[] | string[]>([]);
+  const signInForm = document.getElementById(
+    "register-form"
+  ) as HTMLFormElement;
 
-  const userInfoOptions = [
+  const [userInfo, setUserInfo] = useState<IUserInfo>({
+    name: "",
+    birthDate: "",
+    clinic: "",
+    cpf: "",
+    crm: null,
+    email: "",
+    lastName: "",
+    password: "",
+    sex: "",
+    doctorSchedule: [""],
+    modality: "",
+  });
+
+  const userInfoOptions: IUserInfoOptions = [
     {
       type: "input",
       label: "Nome",
@@ -28,7 +61,7 @@ export const SignInView: React.FC<ISignInView> = ({ setSignView }) => {
       keyName: "cpf",
     },
     {
-      type: "input",
+      type: "date",
       label: "Data de Nascimento",
       keyName: "birthDate",
     },
@@ -43,6 +76,20 @@ export const SignInView: React.FC<ISignInView> = ({ setSignView }) => {
       label: "Clínicas médicas",
       keyName: "clinic",
       options: ["Selecionar", "Albert Einstein Morumbi"],
+    },
+  ];
+
+  const doctorOptions = [
+    {
+      type: "select",
+      label: "Modalidade",
+      keyName: "modality",
+      options: globalHealth.modalities,
+    },
+    {
+      type: "inpit",
+      label: "CRM",
+      keyName: "crm",
     },
   ];
 
@@ -67,10 +114,19 @@ export const SignInView: React.FC<ISignInView> = ({ setSignView }) => {
   const onSubmitUser = async (event: any) => {
     event.preventDefault();
 
-    if (verifyPassword()) {
+    let tmpUserInfo = { ...userInfo, doctorSchedule: hoursSelected };
+
+    let errors = getFormErrors(tmpUserInfo, isDoctor);
+
+    if (!errors) {
       toast.promise(
         async () => {
-          let response = await createUser(userInfo as IUserInfo);
+          let { data } = await createUser({
+            ...tmpUserInfo,
+            birthDate: new Date(userInfo.birthDate).toISOString(),
+          });
+
+          sessionStorage.setItem("@USER_CREDENTIALS", JSON.stringify(data));
         },
         {
           error: "Erro ao criar o usuário",
@@ -78,44 +134,81 @@ export const SignInView: React.FC<ISignInView> = ({ setSignView }) => {
           success: "Sucesso ao criar o usuário",
         }
       );
-    } else {
-      toast.error("As senhas não conferem");
     }
   };
 
-  const verifyPassword = () => {
-    //@ts-ignore
-    return userInfo.password === userInfo.confirmPassword;
+  const toggleTypeUser = (checked: boolean) => {
+    setIsDoctor(checked);
   };
+
+  useEffect(() => {
+    setUserInfo({
+      name: "",
+      birthDate: "",
+      clinic: "",
+      cpf: "",
+      crm: null,
+      email: "",
+      lastName: "",
+      password: "",
+      sex: "",
+      doctorSchedule: null,
+      modality: "",
+    });
+    if (signInForm) {
+      signInForm.reset();
+    }
+  }, [isDoctor]);
+
+  console.log(userLogged, status);
 
   return (
     <div className={style.signIn}>
-      <form onSubmit={(event) => onSubmitUser(event)}>
+      <form onSubmit={(event) => onSubmitUser(event)} id="register-form">
         <section>
-          <h3>Dados de usuário</h3>
+          <header>
+            <h3>Cadastro de usuário</h3>
+
+            <aside className={style.toggleSwitch}>
+              <p>{isDoctor ? "Médico" : "Paciente"}</p>
+              <Switch
+                checked={isDoctor}
+                onChange={(e) => toggleTypeUser(e.target.checked)}
+              />
+            </aside>
+          </header>
           <ul>
             {userInfoOptions.map((item) => {
-              if (item.type === "input")
+              let keyName = item.keyName as keyof typeof userInfo;
+              if (item.type !== "select")
                 return (
-                  <article className={style.inputStyle}>
+                  <article className={global.inputStyle}>
                     <label>{item.label}</label>
                     <input
+                      type={item.type}
                       //@ts-ignore
-                      value={userInfo.keyName}
+                      value={userInfo[keyName]}
                       id={item.keyName + "signIn"}
-                      required
                       onChange={(event: any) => {
+                        let inputValue = event.target.value;
+
+                        if (item.keyName === "cpf") {
+                          inputValue = formatCpf(event.target.value);
+                        }
+
                         setUserInfo({
                           ...userInfo,
-                          [item.keyName]: event.target.value,
+                          [item.keyName]: inputValue,
                         });
                       }}
+                      maxLength={item.keyName === "cpf" ? 14 : undefined}
+                      required
                     />
                   </article>
                 );
               else
                 return (
-                  <article className={style.inputStyle}>
+                  <article className={global.selectStyle}>
                     <label>{item.label}</label>
                     <select
                       onChange={(event: any) => {
@@ -132,6 +225,57 @@ export const SignInView: React.FC<ISignInView> = ({ setSignView }) => {
                   </article>
                 );
             })}
+            {isDoctor && (
+              <>
+                {doctorOptions.map((item) => {
+                  if (item.type !== "select")
+                    return (
+                      <article className={global.inputStyle}>
+                        <label>{item.label}</label>
+                        <input
+                          type={item.type}
+                          //@ts-ignore
+                          value={userInfo.keyName}
+                          id={item.keyName + "signIn"}
+                          required
+                          onChange={(event: any) => {
+                            setUserInfo({
+                              ...userInfo,
+                              [item.keyName]: event.target.value,
+                            });
+                          }}
+                        />
+                      </article>
+                    );
+                  else
+                    return (
+                      <article className={global.selectStyle}>
+                        <label>{item.label}</label>
+                        <select
+                          onChange={(event: any) => {
+                            setUserInfo({
+                              ...userInfo,
+                              [item.keyName]: event.target.value,
+                            });
+                          }}
+                        >
+                          {item.options!.map((option) => (
+                            <option value={option}>{option}</option>
+                          ))}
+                        </select>
+                      </article>
+                    );
+                })}
+              </>
+            )}
+            {isDoctor && (
+              <div className={style.doctorSchedule}>
+                <ScheduleDoctorOptions
+                  hoursSelected={hoursSelected}
+                  setHoursSelected={setHoursSelected}
+                />
+              </div>
+            )}
           </ul>
         </section>
 
@@ -140,7 +284,7 @@ export const SignInView: React.FC<ISignInView> = ({ setSignView }) => {
 
           <ul className={style.signInSection}>
             {logInfo.map((item) => (
-              <article className={style.inputStyle}>
+              <article className={global.inputStyle}>
                 <label>{item.label}</label>
                 <input
                   type={item.keyName === "email" ? "email" : "text"}
@@ -160,11 +304,14 @@ export const SignInView: React.FC<ISignInView> = ({ setSignView }) => {
           </ul>
         </section>
         <button type="submit" className={style.signInButton}>
-          <p>Entrar</p>
+          <p>Cadastrar-se</p>
           <AiOutlineLogin />
         </button>
+
+        <button className={style.backButton} onClick={() => setSignView(false)}>
+          Voltar
+        </button>
       </form>
-      {/* <button onClick={() => setSignView(false)}>Voltar</button> */}
     </div>
   );
 };

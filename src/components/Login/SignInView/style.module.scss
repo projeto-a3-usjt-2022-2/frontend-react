@@ -3,11 +3,9 @@
   flex-direction: column;
   gap: 1rem;
   width: 100%;
-  height: 100%;
 
   form {
     width: 100%;
-    background-color: red;
     padding: 1rem;
     display: flex;
     flex-direction: column;
@@ -32,26 +30,22 @@
       color: #2dbcfa;
     }
   }
-}
 
-.inputStyle {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
+  header {
+    display: flex;
+    justify-content: space-between;
+  }
 
-  input {
-    border: 1px solid #2dbcfa;
-    padding: 0.5rem;
-    border-radius: 5px;
-
-    :focus {
-      outline: 1px solid #2dbcfa;
+  @media (max-width: 500px) {
+    ul {
+      grid-template-columns: 1fr !important;
     }
   }
 }
 
-.select {
-  background-color: #fff;
+.toggleSwitch {
+  display: flex;
+  gap: 1rem;
 }
 
 .signInButton {
@@ -77,4 +71,18 @@
   article:nth-child(1) {
     grid-column: span 2;
   }
+}
+
+.backButton {
+  background-color: var(--white);
+  padding: 0.6rem 0.4rem;
+  border-radius: var(--radius);
+  border-color: 1px solid var(--blue-500);
+  color: var(--blue-500);
+  font-size: 1rem;
+}
+
+.doctorSchedule {
+  grid-column: span 2;
+  width: 100%;
 }
