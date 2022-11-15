@@ -10,7 +10,8 @@ export type IUserInfo = {
   email: string;
   password: string;
   clinic: string;
-  modality?: string;
+  modality?: string | null;
+  doctorSchedule?: string[] | null;
 };
 
 export const createUser = async (params: IUserInfo) => {
