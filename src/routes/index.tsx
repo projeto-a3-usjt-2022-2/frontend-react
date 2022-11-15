@@ -1,4 +1,5 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { AuthComponent } from "../components/FC/AuthComponent";
 import { PageError } from "../pages/Error";
 import { Home } from "../pages/Home";
 import { LoginPage } from "../pages/Login";
@@ -6,7 +7,11 @@ import { LoginPage } from "../pages/Login";
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Home />,
+    element: (
+      <AuthComponent>
+        <Home />
+      </AuthComponent>
+    ),
     errorElement: <PageError />,
   },
   {
@@ -16,7 +21,11 @@ const router = createBrowserRouter([
   },
   {
     path: "/consults",
-    element: <Home />,
+    element: (
+      <AuthComponent>
+        <Home />
+      </AuthComponent>
+    ),
     errorElement: <PageError />,
   },
 ]);
