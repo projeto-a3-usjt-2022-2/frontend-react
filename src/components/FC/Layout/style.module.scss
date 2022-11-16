@@ -20,8 +20,14 @@
   display: flex;
   align-items: center;
   padding-left: 1rem;
+  justify-content: space-between;
+  padding-right: 1rem;
 }
 .main {
   grid-area: main;
   overflow-y: auto;
+}
+.homeButtons{
+  display: flex;
+  gap: 2rem;
 }

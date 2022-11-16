@@ -4,6 +4,7 @@ import { PageError } from "../pages/Error";
 import { Home } from "../pages/Home";
 import { LoginPage } from "../pages/Login";
 import { Schedule } from "../pages/Schedule";
+import { User } from "../pages/User";
 
 const router = createBrowserRouter([
   {
@@ -38,6 +39,12 @@ const router = createBrowserRouter([
     ),
     errorElement: <PageError />,
   },
+  {
+    path:"/User",
+    element: (
+      <User/>
+    ),
+  }
 ]);
 
 export const Routes: React.FC = () => {

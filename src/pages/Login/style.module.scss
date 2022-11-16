@@ -9,7 +9,10 @@
   grid-template-columns: 1fr 38rem;
 
   .background {
-    background-color: red;
+    background: url('../../assets/img/analysis-hospital-doctor-medical-genetic-dna-1451109-pxhere.com.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position:-20rem 0;
   }
 
   .userView {
