@@ -3,6 +3,7 @@ import { AuthComponent } from "../components/FC/AuthComponent";
 import { PageError } from "../pages/Error";
 import { Home } from "../pages/Home";
 import { LoginPage } from "../pages/Login";
+import { Schedule } from "../pages/Schedule";
 
 const router = createBrowserRouter([
   {
@@ -17,6 +18,15 @@ const router = createBrowserRouter([
   {
     path: "/login",
     element: <LoginPage />,
+    errorElement: <PageError />,
+  },
+  {
+    path: "/schedule",
+    element: (
+      <AuthComponent>
+        <Schedule />
+      </AuthComponent>
+    ),
     errorElement: <PageError />,
   },
   {

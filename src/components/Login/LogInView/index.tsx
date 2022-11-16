@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { AiOutlineLogin } from "react-icons/ai";
-import { redirect } from "react-router-dom";
+import { redirect, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { IParams, userLogin } from "../../../services/POST/userLogIn";
 import { formatCpf } from "../../../utils/formatCpf";
@@ -15,6 +15,7 @@ export const LoginView: React.FC<ILoginView> = ({ setIsSignView }) => {
     credential: "",
     password: "",
   });
+  const navigate = useNavigate();
 
   const submitInfo = async (event: any) => {
     event.preventDefault();
@@ -28,7 +29,7 @@ export const LoginView: React.FC<ILoginView> = ({ setIsSignView }) => {
           JSON.stringify(response.data)
         );
 
-        return redirect("/");
+        return navigate("/");
       },
       {
         error: "Verifique suas credenciais e tente novamente",
@@ -67,8 +68,8 @@ export const LoginView: React.FC<ILoginView> = ({ setIsSignView }) => {
             <article>
               <label htmlFor="password-login">Senha</label>
               <input
-                type="text"
                 id="password-login"
+                type="password"
                 onChange={(event) => {
                   setUserInfo({ ...userInfo, password: event.target.value });
                 }}

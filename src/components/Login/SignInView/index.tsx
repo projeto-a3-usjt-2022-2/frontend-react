@@ -11,6 +11,7 @@ import { Switch } from "evergreen-ui";
 import { formatCpf } from "../../../utils/formatCpf";
 import { getFormErrors } from "./preventError";
 import { useAuthentication } from "../../../hooks/useAuthentication";
+import { useNavigate } from "react-router-dom";
 
 interface ISignInView {
   setSignView: any;
@@ -29,6 +30,8 @@ export const SignInView: React.FC<ISignInView> = ({ setSignView }) => {
   const signInForm = document.getElementById(
     "register-form"
   ) as HTMLFormElement;
+
+  const navigate = useNavigate();
 
   const [userInfo, setUserInfo] = useState<IUserInfo>({
     name: "",
@@ -127,6 +130,7 @@ export const SignInView: React.FC<ISignInView> = ({ setSignView }) => {
           });
 
           sessionStorage.setItem("@USER_CREDENTIALS", JSON.stringify(data));
+          return navigate("/");
         },
         {
           error: "Erro ao criar o usuário",

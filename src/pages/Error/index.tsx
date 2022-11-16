@@ -1,6 +1,6 @@
 import React from "react";
 import styles from "./style.module.scss";
-import ErrorImage from "../../assets/page_not_found.png";
+import ErrorImage from "../../assets/img/page_not_found.png";
 import { Link } from "react-router-dom";
 
 export const PageError: React.FC = () => {

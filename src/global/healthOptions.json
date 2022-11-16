@@ -1,5 +1,6 @@
 {
   "modalities": [
+    "Selecionar",
     "Cardiologista",
     "Cirurgião",
     "Clínico Geral",
@@ -20,7 +21,7 @@
     "Radiologista",
     "Reumatologista"
   ],
-  "clinics": "Albert Einstein Morumbi",
+  "clinics": ["Selecionar", "Albert Einstein Morumbi"],
   "doctorSchedule": [
     "08:00 - 08:30",
     "08:30 - 09:00",
