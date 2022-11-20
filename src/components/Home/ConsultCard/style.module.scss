@@ -1,0 +1,70 @@
+.cardConsult {
+  width: 20rem;
+  padding: 1rem;
+  border-radius: var(--radius);
+
+  display: grid;
+  grid-template-columns: repeat(2, 1fr) 8rem;
+  row-gap: 0.5rem;
+
+  grid-template-areas:
+    "title title hour"
+    "clinic clinic clinic"
+    "street street status";
+
+  box-shadow: var(--box-shadow);
+  border: 1px solid #ccc;
+
+  h3 {
+    grid-area: title;
+    color: var(--blue-500);
+  }
+
+  span {
+    grid-area: hour;
+    text-align: end;
+  }
+
+  h4 {
+    grid-area: clinic;
+    color: var(--green-500);
+  }
+
+  p {
+    grid-area: street;
+  }
+
+  :is(p, span) {
+    color: #7e7e7e;
+    font-weight: 600;
+  }
+
+  aside {
+    grid-area: status;
+
+    display: flex;
+    justify-content: end;
+    align-items: flex-end;
+
+    svg {
+      width: 1.5rem;
+      height: 1.5rem;
+    }
+  }
+}
+
+.done {
+  svg {
+    fill: #13c725;
+  }
+}
+.waiting {
+  svg {
+    fill: #ff9900;
+  }
+}
+.cancelled {
+  svg {
+    fill: #d00d0d;
+  }
+}
