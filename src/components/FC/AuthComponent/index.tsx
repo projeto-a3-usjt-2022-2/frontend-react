@@ -9,7 +9,7 @@ export const AuthComponent = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     if (!userLogged) {
-      // return navigate("/login");
+      return navigate("/login");
     }
   }, [userLogged]);
 
