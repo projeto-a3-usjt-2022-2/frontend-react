@@ -40,11 +40,9 @@ const router = createBrowserRouter([
     errorElement: <PageError />,
   },
   {
-    path:"/User",
-    element: (
-      <User/>
-    ),
-  }
+    path: "/User",
+    element: <User />,
+  },
 ]);
 
 export const Routes: React.FC = () => {

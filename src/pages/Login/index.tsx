@@ -8,7 +8,7 @@ export const LoginPage: FC = () => {
 
   return (
     <div className={style.loginPage}>
-      <section className={style.background}>{/* Background */}a</section>
+      <section className={style.background}>{/* Background */}</section>
       <section className={style.userView}>
         {isSignView ? (
           <SignInView setSignView={setIsSignView} />
