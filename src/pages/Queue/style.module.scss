@@ -1,0 +1,42 @@
+.container {
+  width: 100%;
+  height: 100%;
+
+  display: grid;
+  grid-template-columns: 30rem 1fr;
+
+  @media (max-width: 960px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.bgSection {
+  background: url("../../assets/img/doctorBg.png");
+  background-repeat: no-repeat;
+  width: 100%;
+  height: 100%;
+
+  @media (max-width: 960px) {
+    display: none;
+  }
+}
+
+.main {
+  padding: 1rem;
+
+  h3 {
+    color: #777;
+    font-size: 1.5rem;
+  }
+
+  ul {
+    padding-top: 1rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+}
+
+.cardContainer {
+  margin-top: 2rem;
+}

@@ -3,6 +3,7 @@ import { AuthComponent } from "../components/FC/AuthComponent";
 import { PageError } from "../pages/Error";
 import { Home } from "../pages/Home";
 import { LoginPage } from "../pages/Login";
+import { Queue } from "../pages/Queue";
 import { Schedule } from "../pages/Schedule";
 import { User } from "../pages/User";
 
@@ -42,6 +43,10 @@ const router = createBrowserRouter([
   {
     path: "/User",
     element: <User />,
+  },
+  {
+    path: "/queue",
+    element: <Queue />,
   },
 ]);
 

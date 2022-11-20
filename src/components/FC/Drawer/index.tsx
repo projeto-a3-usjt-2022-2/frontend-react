@@ -29,6 +29,11 @@ export const Drawer: React.FC = () => {
       name: "Dados do usuário",
       icon: <AiOutlineUser />,
     },
+    {
+      path: "/queue",
+      name: "Fila de consulta",
+      icon: <AiOutlineUser />,
+    },
   ];
   return (
     <div className={`${styles.container} ${open ? styles.active : ""}`}>

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { AiFillCloseCircle } from "react-icons/ai";
 import { BsFillCheckCircleFill, BsFillStopwatchFill } from "react-icons/bs";
+import { sendConsultToQueue } from "../../../services/POST/sendConsultToQueue";
 import { getCepInfo } from "../../../utils/getCepInfo";
 import styles from "./style.module.scss";
 // import { Container } from './styles';
@@ -63,9 +64,12 @@ export const ConsultCard: React.FC<ICard> = (card) => {
 
       <h4>{card.clinic}</h4>
       <p>{street}</p>
-      <aside className={getSvgClass(statusConsult[card.status].type)}>
+      <button
+        onClick={async () => await sendConsultToQueue(card)}
+        className={getSvgClass(statusConsult[card.status].type)}
+      >
         {statusConsult[card.status].svg}
-      </aside>
+      </button>
     </li>
   );
 };
