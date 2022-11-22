@@ -33,6 +33,7 @@ type ICard = {
 };
 export const Home: React.FC = () => {
   const [consults, setConsults] = useState<[] | ICard[]>([]);
+  const [loading, setLoading] = useState(false);
 
   const { userLogged } = useAuthentication();
 
@@ -47,24 +48,33 @@ export const Home: React.FC = () => {
   };
 
   useEffect(() => {
+    setLoading(true);
     getConsults();
+    setLoading(false);
   }, []);
+  console.log(userLogged);
 
   return (
-    <Layout title={`Bem vindo, ${name}`}>
+    <Layout title={`Bem vindo, ${userLogged?.name}`}>
       <div className={styles.container}>
         <section className={styles.bgSection} />
         <main className={styles.main}>
           <h3>Minhas consultas</h3>
 
-          {consults.length > 0 ? (
-            <ul>
-              {consults.map((card) => (
-                <ConsultCard {...card} />
-              ))}
-            </ul>
+          {loading ? (
+            <div>Procurando consultas do usuário</div>
           ) : (
-            <div>Sem consultas até o momento :(</div>
+            <>
+              {consults.length > 0 ? (
+                <ul>
+                  {consults.map((card) => (
+                    <ConsultCard {...card} />
+                  ))}
+                </ul>
+              ) : (
+                <div>Sem consultas até o momento :(</div>
+              )}
+            </>
           )}
         </main>
       </div>

@@ -98,17 +98,17 @@ export const SignInView: React.FC<ISignInView> = ({ setSignView }) => {
 
   const logInfo = [
     {
-      type: "input",
+      type: "email",
       label: "Email",
       keyName: "email",
     },
     {
-      type: "input",
+      type: "password",
       label: "password",
       keyName: "password",
     },
     {
-      type: "input",
+      type: "password",
       label: "Confirme sua senha",
       keyName: "confirmPassword",
     },
@@ -291,7 +291,7 @@ export const SignInView: React.FC<ISignInView> = ({ setSignView }) => {
               <article className={global.inputStyle}>
                 <label>{item.label}</label>
                 <input
-                  type={item.keyName === "email" ? "email" : "text"}
+                  type={item.type}
                   //@ts-ignore
                   value={userInfo.keyName}
                   id={item.keyName + "signIn"}

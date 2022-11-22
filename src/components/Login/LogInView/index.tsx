@@ -50,7 +50,7 @@ export const LoginView: React.FC<ILoginView> = ({ setIsSignView }) => {
         <form id="login-form" className={style.loginForm} onSubmit={submitInfo}>
           <section>
             <article>
-              <label htmlFor="credential-login">CPF ou CRM</label>
+              <label htmlFor="credential-login">Logar com CPF</label>
               <input
                 type="text"
                 id="credential-login"

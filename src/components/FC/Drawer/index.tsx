@@ -9,9 +9,11 @@ import {
 import { BsFillGrid1X2Fill } from "react-icons/bs";
 
 import styles from "./style.module.scss";
+import { useAuthentication } from "../../../hooks/useAuthentication";
 
 export const Drawer: React.FC = () => {
   const [open, setOpen] = useState(false);
+  const { userLogged } = useAuthentication();
 
   const avaliableLinks = [
     {
@@ -25,16 +27,37 @@ export const Drawer: React.FC = () => {
       icon: <AiFillBook />,
     },
     {
-      path: "/user",
-      name: "Dados do usuário",
-      icon: <AiOutlineUser />,
-    },
-    {
       path: "/queue",
       name: "Fila de consulta",
       icon: <AiOutlineUser />,
     },
   ];
+
+  const getAvaliableLinks = (crm: string | null) => {
+    let tmpLinks = [
+      {
+        path: "/consults",
+        name: "Minhas consultas",
+        icon: <AiFillCalendar />,
+      },
+      {
+        path: "/schedule",
+        name: "Novo agendamento",
+        icon: <AiFillBook />,
+      },
+      {
+        path: "/queue",
+        name: "Fila de consulta",
+        icon: <AiOutlineUser />,
+      },
+    ];
+
+    if (crm) {
+      tmpLinks = tmpLinks.filter((item) => item.path !== "/schedule");
+    }
+
+    return tmpLinks;
+  };
   return (
     <div className={`${styles.container} ${open ? styles.active : ""}`}>
       {open ? (
@@ -51,7 +74,7 @@ export const Drawer: React.FC = () => {
           </header>
 
           <ul>
-            {avaliableLinks.map((link) => (
+            {getAvaliableLinks(userLogged.crm).map((link) => (
               <li key={link.name}>
                 <Link to={link.path} className={styles.link}>
                   {link.icon}

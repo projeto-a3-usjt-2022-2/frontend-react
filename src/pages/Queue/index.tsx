@@ -6,9 +6,12 @@ import styles from "./style.module.scss";
 
 export const Queue: React.FC = () => {
   const [consult, setConsult] = useState<any>(null);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    setLoading(true);
     getConsultByQueue();
+    setLoading(false);
   }, []);
 
   const getConsultByQueue = async () => {
@@ -18,31 +21,25 @@ export const Queue: React.FC = () => {
     setConsult(data);
   };
 
-  console.log(consult);
-
   return (
     <Layout title={`Fila de consultas`}>
       <div className={styles.container}>
         <section className={styles.bgSection} />
         <main className={styles.main}>
           <h3>Consulta Atual</h3>
-
-          {consult ? (
-            <div className={styles.cardContainer}>
-              <ConsultCard {...consult} />
-            </div>
+          {loading ? (
+            <div>Procurando consulta atual...</div>
           ) : (
-            <h4>Sem consultas na fila</h4>
+            <>
+              {consult ? (
+                <div className={styles.cardContainer}>
+                  <ConsultCard {...consult} />
+                </div>
+              ) : (
+                <h4>Carregando</h4>
+              )}
+            </>
           )}
-
-          {/* {consults.length > 0 ? (
-            <ul>
-              {consults.map((card) => (
-              ))}
-            </ul>
-          ) : (
-            <div>Sem consultas até o momento :(</div>
-          )} */}
         </main>
       </div>
     </Layout>
